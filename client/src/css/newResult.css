@@ -1,0 +1,11 @@
+.lesson-item {
+  transition: opacity 0.3s ease;
+}
+
+.lesson-item.clicked {
+  opacity: 1;
+}
+
+.lesson-item:not(.clicked) {
+  opacity: 0.4;
+}

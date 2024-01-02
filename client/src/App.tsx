@@ -8,7 +8,7 @@ import AddNew from "./components/AddNew";
 
 function App() {
   return (
-    <div className="App">
+    <div className="text-white w-screen h-screen bg-background-dark">
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Result />}/>

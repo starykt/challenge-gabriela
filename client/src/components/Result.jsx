@@ -36,7 +36,7 @@ const List = () => {
           </h3>
         </div>
       ))}
-      <buttton><Link to="/add">Add new grade</Link></buttton>
+      <buttton><Link to="/new">Add new grade</Link></buttton>
     </div>
   </div>
   )
