@@ -1,7 +1,9 @@
 import React from 'react';
-import axios from 'axios';
 import { Link } from "react-router-dom";
 import { useState, useEffect } from 'react';
+import { ResultService } from "../services/resultService";
+
+const resultService = new ResultService();
 
 const List = () => {
   const [results, setResults] = useState([]);
@@ -9,10 +11,10 @@ const List = () => {
   useEffect(() => {
     const fetchAllResults = async () => {
       try {
-        const res = await axios.get("http://localhost:8080/results");
-        setResults(res.data);
+        const fetchedResults = await resultService.fetchAllResults();
+        setResults(fetchedResults);
       } catch(err) {
-        console.log(err);
+        console.error(err);
       }
     }
     fetchAllResults();

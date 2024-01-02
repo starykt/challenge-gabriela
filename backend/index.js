@@ -15,11 +15,11 @@ const db = mysql.createConnection({
 app.use(express.json());
 app.use(cors());
 
-app.get("/", (req, res) => {
+app.get("/api/v1/", (req, res) => {
   res.json("Bem vindo ao backend.")
 })
 
-app.get("/results", (req, res) => {
+app.get("/api/v1/results", (req, res) => {
   const q = "SELECT * FROM results";
   db.query(q, (err, data) => {
     if(err) return res.json(err)
@@ -27,7 +27,7 @@ app.get("/results", (req, res) => {
   });
 })
 
-app.post("/results", (req, res) => {
+app.post("/api/v1/results", (req, res) => {
   const q = "INSERT INTO results (`id`, `grade`, `lesson`, `bimester`, `createdAt`, `updatedAt`) VALUES(?);"
   const values = [
     req.body.id,
