@@ -1,12 +1,12 @@
-import React from 'react';
 import { Link } from "react-router-dom";
-import { useState, useEffect } from 'react';
+import { IResult } from "../interfaces/result";
+import React, { useState, useEffect } from 'react';
 import { ResultService } from "../services/resultService";
 
 const resultService = new ResultService();
 
-const List = () => {
-  const [results, setResults] = useState([]);
+const List: React.FC = () => {
+  const [results, setResults] = useState<IResult[]>([]);
 
   useEffect(() => {
     const fetchAllResults = async () => {
@@ -36,7 +36,7 @@ const List = () => {
           </h3>
         </div>
       ))}
-      <buttton><Link to="/new">Add new grade</Link></buttton>
+      <button><Link to="/new">Add new grade</Link></button>
     </div>
   </div>
   )
