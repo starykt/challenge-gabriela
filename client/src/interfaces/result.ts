@@ -1,22 +1,22 @@
 
 export enum Bimesters {
-  first = 'PRIMEIRO',
-  second = 'SEGUNDO',
-  third = 'TERCEIRO',
-  fourth = 'QUARTO',
+  primeiro = 'PRIMEIRO',
+  segundo = 'SEGUNDO',
+  terceiro = 'TERCEIRO',
+  quarto = 'QUARTO',
 }
 
 export enum Lessons {
-  first = 'Biologia',
-  second = 'Artes',
-  third = 'Geografia',
-  fourth = 'Sociologia',
+  Biologia = 'Biologia',
+  Artes = 'Artes',
+  Geografia = 'Geografia',
+  Sociologia = 'Sociologia',
 }
 
 export interface IResult {
   id: string,
-  createdAt: Date,
-  updatedAt: Date,
+  createdAt: Date | null,
+  updatedAt: Date | null,
   grade: number | null,
   lesson: Lessons | null,
   bimester: Bimesters | null,

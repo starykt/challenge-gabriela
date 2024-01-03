@@ -15,4 +15,14 @@ export class ResultService {
     }
   }
 
+  public async fetchNewResult(result: IResult) {
+    try {
+      console.log(result);
+      const fetchQuery = await api.post<IResult[]>(`${this.apiURL}`, result);
+      return fetchQuery.data;
+    } catch(err) {
+      throw err;
+    }
+  }
+
 }
