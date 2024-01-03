@@ -15,9 +15,10 @@ const AddNew = () => {
     [Lessons.Sociologia]: "bg-label-sociology",
   };
 
+  const [showLessonWarning, setShowLessonWarning] = useState<boolean>(false);
   const [clickedLesson, setClickedLesson] = useState<Lessons | null>();
   const [newResult, setNewResult] = useState<IResult>({
-    id: "5",
+    id: "",
     bimester: Bimesters.quarto,
     lesson: null,
     grade: null,
@@ -46,11 +47,25 @@ const AddNew = () => {
   }, [newResult]);
 
   const finisheData = () => {
+    if (!clickedLesson) {
+      setShowLessonWarning(true);
+
+      setTimeout(() => {
+        setShowLessonWarning(false);
+      }, 3000);
+
+      return;
+    }
+
     const lessonOption = clickedLesson?.toLowerCase();
     const currentDate = new Date();
+    const positionOfBimester = Object.values(Bimesters).indexOf(Bimesters.quarto) + 1;
+    const firstLetterOfLesson = clickedLesson.charAt(0).toUpperCase();
+
 
     setNewResult(prev => ({
       ...prev,
+      id: `${positionOfBimester}${firstLetterOfLesson}`,
       createdAt: currentDate,
       updatedAt: currentDate,
       lesson: lessonOption ? Lessons[clickedLesson!] : null,
@@ -58,8 +73,12 @@ const AddNew = () => {
   }
 
   const handleSubmit = async () => {
+    if (!newResult.grade) {
+      return;
+    }
     try {
       await resultService.fetchNewResult(newResult);
+      navigate("/");
     }catch(err) {
       console.error(err);
     }
@@ -91,15 +110,28 @@ const AddNew = () => {
         </div>
         <div className="m-2">
           <label htmlFor="grade">Nota</label>
-          <input type="number" name="grade" id="grade" className="flex mt-2 bg-transparent p-1.5 pl-1 text-white-900 placeholder:text-white-400 border rounded border-white" placeholder="7.5" max="10" onChange={handleChange} />
+          <input
+            type="number"
+            name="grade"
+            id="grade"
+            className="flex mt-2 bg-transparent p-1.5 pl-1 text-white-900 placeholder:text-white-400 border rounded border-white"
+            placeholder="7.5"
+            max="10"
+            required
+            onChange={handleChange} />
         </div>
         <div className="mt-6 flex items-center justify-end gap-x-6">
           <button type="button" className="text-sm font-semibold rounded-md px-3 py-2 bg-white text-black"><Link to="/">Cancelar</Link></button>
           <button
-            type="button"
+            type="submit"
             onClick={finisheData}
             className="rounded-md bg-button-confirm px-3 py-2 text-black text-sm font-semibold shadow-sm hover:bg-button-confirmed focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ">Confirmar</button>
         </div>
+        {showLessonWarning && (
+          <div className="mt-4 bg-red-500 text-white p-2 transition-opacity duration-300 opacity-100">
+            Por favor, selecione uma disciplina
+          </div>
+        )}
       </form>
     </div>
   )

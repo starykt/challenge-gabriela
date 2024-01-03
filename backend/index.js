@@ -28,19 +28,31 @@ app.get("/api/v1/results", (req, res) => {
 })
 
 app.post("/api/v1/results", (req, res) => {
-  const q = "INSERT INTO results (`id`, `grade`, `lesson`, `bimester`, `createdAt`, `updatedAt`) VALUES(?);"
+  const q = "INSERT INTO results (`id`, `grade`, `lesson`, `bimester`, `createdAt`, `updatedAt`) VALUES (?);"
+  const createdAt = new Date(req.body.createdAt);
+  const updatedAt = new Date(req.body.updatedAt);
+
   const values = [
     req.body.id,
     req.body.grade,
     req.body.lesson,
     req.body.bimester,
-    req.body.createdAt,
-    req.body.updatedAt
+    createdAt.toISOString().split('T')[0],
+    updatedAt.toISOString().split('T')[0],
   ];
 
   db.query(q, [values], (err, data) => {
     if(err) return res.json(err)
     return res.json("Grade was assigned!")
+  });
+})
+
+app.delete("/api/v1/results/:id", (req, res) => {
+  const resultId = req.params.id;
+  const q = "DELETE FROM results WHERE id = ?";
+  db.query(q, [resultId], (err, data) => {
+    if(err) return res.json(err)
+    return res.json("Grade was deleted!")
   });
 })
 
