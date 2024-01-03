@@ -18,7 +18,7 @@ const AddNew = () => {
   const [showLessonWarning, setShowLessonWarning] = useState<boolean>(false);
   const [clickedLesson, setClickedLesson] = useState<Lessons | null>();
   const [newResult, setNewResult] = useState<IResult>({
-    id: "8",
+    id: "",
     bimester: Bimesters.quarto,
     lesson: null,
     grade: null,
@@ -59,10 +59,13 @@ const AddNew = () => {
 
     const lessonOption = clickedLesson?.toLowerCase();
     const currentDate = new Date();
+    const positionOfBimester = Object.values(Bimesters).indexOf(Bimesters.quarto) + 1;
+    const firstLetterOfLesson = clickedLesson.charAt(0).toUpperCase();
 
 
     setNewResult(prev => ({
       ...prev,
+      id: `${positionOfBimester}${firstLetterOfLesson}`,
       createdAt: currentDate,
       updatedAt: currentDate,
       lesson: lessonOption ? Lessons[clickedLesson!] : null,
@@ -73,7 +76,6 @@ const AddNew = () => {
     if (!newResult.grade) {
       return;
     }
-
     try {
       await resultService.fetchNewResult(newResult);
       navigate("/");

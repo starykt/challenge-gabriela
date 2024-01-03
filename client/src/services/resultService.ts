@@ -11,7 +11,7 @@ export class ResultService {
       const fetchQuery = await api.get<IResult[]>(`${this.apiURL}`);
       const results = fetchQuery.data;
 
-      // Organize os resultados por bimestre
+      // Organizando os resultados por bimestre
       const resultsByBimestre: { [key: string]: IResult[] } = {};
 
       results.forEach(result => {
@@ -23,10 +23,7 @@ export class ResultService {
 
         resultsByBimestre[bimestre].push(result);
       });
-      console.log(resultsByBimestre);
 
-      // Agora, você tem os resultados organizados por bimestre em resultsByBimestre
-      console.log(resultsByBimestre);
       return resultsByBimestre;
     } catch(err) {
       throw err;
@@ -35,8 +32,16 @@ export class ResultService {
 
   public async fetchNewResult(result: IResult) {
     try {
-      console.log(result);
       await api.post<IResult[]>(`${this.apiURL}`, result);
+    } catch(err) {
+      throw err;
+    }
+  }
+
+  public async deleteResult(id: string) {
+    try {
+      const responseDelete = await api.delete<string>(`${this.apiURL}/${id}`);
+      return responseDelete;
     } catch(err) {
       throw err;
     }

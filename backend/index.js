@@ -47,6 +47,15 @@ app.post("/api/v1/results", (req, res) => {
   });
 })
 
+app.delete("/api/v1/results/:id", (req, res) => {
+  const resultId = req.params.id;
+  const q = "DELETE FROM results WHERE id = ?";
+  db.query(q, [resultId], (err, data) => {
+    if(err) return res.json(err)
+    return res.json("Grade was deleted!")
+  });
+})
+
 app.listen(8080, () => {
   console.log("Conectado ao backend!")
 })
