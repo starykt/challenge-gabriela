@@ -127,7 +127,7 @@ const AddNew = () => {
         </div>
         {showLessonWarning && (
           <div className="mt-4 bg-red-500 text-white p-2 transition-opacity duration-300 opacity-100">
-            Por favor, selecione uma disciplina.
+            Por favor, selecione uma disciplina
           </div>
         )}
       </form>
