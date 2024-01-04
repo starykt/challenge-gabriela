@@ -79,7 +79,7 @@ const List: React.FC = () => {
 
   return (
     <div className="relative flex min-h-screen flex-col justify-center overflow-hidden">
-      <div className="relative">
+      <div className="relative my-10">
         <div className="mx-auto max-w-6xl">
             {showDeleteMessage && (
               <div className="mt-4 bg-green-500 text-white p-2 transition-opacity duration-300 opacity-100 absolute">
@@ -93,7 +93,7 @@ const List: React.FC = () => {
                     {formatTitle(bimester)} semestre
                   </h1>
                   <button
-                    className="flex align-center justify-center min-w-58 min-h-4 m-4 bg-button-confirmed text-black p-2 transition-opacity duration-300 opacity-100"
+                    className="flex align-center justify-center min-h-4 m-4 bg-button-confirmed text-black p-2 transition-opacity duration-300 opacity-100"
                     onClick={() => setNewModal(bimester)}
                   >
                     <p className="mx-2">
@@ -102,13 +102,13 @@ const List: React.FC = () => {
                     <Icon path={mdiPlus} size={1} />
                   </button>
                 </div>
-                <div className="flex flex-row gap-2">
+                <div className="flex flex-row gap-4">
                   {(resultsByBimestre[bimester] || [])
                     .sort((a, b) => lessonOrder[a.lesson!] - lessonOrder[b.lesson!])
                     .map(result => (
                       <div
                         key={result.id}
-                        className={`grid min-w-64 min-h-30 ml-4 py-4 rounded w-24 ${lessonColors[result.lesson!]}`}
+                        className={`grid min-w-48 min-h-30 ml-4 py-4 rounded w-24 ${lessonColors[result.lesson!]}`}
                       >
                       <div className='flex justify-between mb-2'>
                         <h1 className='text-2xl ml-4'>{result.lesson}</h1>
