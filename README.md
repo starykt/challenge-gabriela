@@ -21,6 +21,8 @@ Para rodar em seu computador siga os passos:
 
 Instale as dependências em ambas as pastas: backend e client com `npm install`
 
+No backend rode `npm run build`
+
 Rode ambas aplicações com o comando `npm start`
 
 Para o arquivo `.env` confira os valores de usuário e senha do banco.

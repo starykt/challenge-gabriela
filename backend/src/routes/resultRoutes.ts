@@ -1,39 +1,24 @@
-import cors from "cors";
-import mysql from "mysql";
-import express from "express";
+import { db } from "..";
+import { IResult } from "../interfaces/result";
+import express, { Router, Request, Response } from "express";
 
-const app = express();
+const resultsRouter = Router();
 
-// Conexão com o banco de dados MYSQL
-const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "secret123",
-  database: "schools"
-})
-
-app.use(express.json());
-app.use(cors());
-
-app.get("/api/v1/", (req, res) => {
-  res.json("Bem vindo ao backend.")
-})
-
-app.get("/api/v1/results", (req, res) => {
+resultsRouter.get("/", (req: Request, res: Response) => {
   const q = "SELECT * FROM results";
-  db.query(q, (err, data) => {
-    if(err) return res.json(err)
-    return res.json(data)
+  db.query(q, (err: any, data: IResult[]) => {
+    if (err) return res.json(err);
+    return res.json(data);
   });
-})
+});
 
-app.post("/api/v1/results", (req, res) => {
+resultsRouter.post("/", (req: Request, res: Response) => {
   const checkIdQuery = "SELECT COUNT(*) AS quantidade FROM results WHERE id = ?";
   const insertQuery = "INSERT INTO results (`id`, `grade`, `lesson`, `bimester`, `createdAt`, `updatedAt`) VALUES (?);"
   const createdAt = new Date(req.body.createdAt);
   const updatedAt = new Date(req.body.updatedAt);
 
-  const values = [
+  const values: any[] = [
     req.body.id,
     req.body.grade,
     req.body.lesson,
@@ -43,7 +28,7 @@ app.post("/api/v1/results", (req, res) => {
   ];
 
   // Query para validar se ID já existe no banco
-  db.query(checkIdQuery, [req.body.id], (errCheck, dataCheck) => {
+  db.query(checkIdQuery, [req.body.id], (errCheck: any, dataCheck: { quantidade: number }[]) => {
     if (errCheck) {
       console.error("Error checking ID:", errCheck);
       return res.status(500).json({ error: "Internal Server Error" });
@@ -54,7 +39,7 @@ app.post("/api/v1/results", (req, res) => {
     if (idExists) {
       return res.status(400).json({ error: "Nota já cadastrada no sistema :)" });
     } else {
-      db.query(insertQuery, [values], (errInsert, dataInsert) => {
+      db.query(insertQuery, [values], (errInsert: any) => {
         if (errInsert) {
           console.error("Error inserting data:", errInsert);
           return res.status(500).json({ error: "Internal Server Error" });
@@ -66,15 +51,13 @@ app.post("/api/v1/results", (req, res) => {
   });
 });
 
-app.delete("/api/v1/results/:id", (req, res) => {
+resultsRouter.delete("/:id", (req: Request, res: Response) => {
   const resultId = req.params.id;
   const deleteQuery = "DELETE FROM results WHERE id = ?";
-  db.query(deleteQuery, [resultId], (err, data) => {
+  db.query(deleteQuery, [resultId], (err: any) => {
     if(err) return res.json(err)
     return res.json("Grade was deleted!")
   });
-})
+});
 
-app.listen(8080, () => {
-  console.log("Conectado ao backend!")
-})
+export default resultsRouter;

@@ -48,7 +48,7 @@ const List: React.FC = () => {
       setTimeout(() => {
         setDeleteMessage(false);
         window.location.reload();
-      }, 2000);
+      }, 1000);
       } catch(err) {
         console.error(err);
       }
@@ -78,16 +78,16 @@ const List: React.FC = () => {
   }, [])
 
   return (
-    <div className="relative flex min-h-screen flex-col justify-center overflow-hidden">
+    <div className="relative grid gap-8 min-h-screen flex-col justify-center overflow-hidden">
       <div className="relative my-10">
         <div className="mx-auto max-w-6xl">
             {showDeleteMessage && (
-              <div className="mt-4 bg-green-500 text-white p-2 transition-opacity duration-300 opacity-100 absolute">
+              <div className="mt-4 bg-green-500 text-white p-2 transition-opacity duration-300 opacity-100 sticky">
                 Nota excluída com sucesso!
               </div>
             )}
             {["PRIMEIRO", "SEGUNDO", "TERCEIRO", "QUARTO"].map(bimester => (
-              <div key={bimester} className='mb-4'>
+              <div key={bimester} className='mb-4 sm:justify-center'>
                 <div className="flex justify-between items-center align-center">
                   <h1 className='text-2xl ml-2'>
                     {formatTitle(bimester)} semestre
@@ -102,7 +102,7 @@ const List: React.FC = () => {
                     <Icon path={mdiPlus} size={1} />
                   </button>
                 </div>
-                <div className="flex flex-row gap-4">
+                <div className="flex flex-wrap sm:flex-row gap-4 justify-around sm:justify-start">
                   {(resultsByBimestre[bimester] || [])
                     .sort((a, b) => lessonOrder[a.lesson!] - lessonOrder[b.lesson!])
                     .map(result => (
