@@ -4,7 +4,6 @@ import {
   Route,
 } from "react-router-dom";
 import Result from "./components/Result";
-import AddNew from "./components/AddNew";
 
 function App() {
   return (
@@ -12,7 +11,6 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Result />}/>
-          <Route path="/new" element={<AddNew />}/>
         </Routes>
       </BrowserRouter>
     </div>

@@ -30,7 +30,12 @@ API - [http://localhost:8080/api/v1/](http://localhost:8080/api/v1/) to view it 
 
 ## Banco e documentação Postman
 
-[POSTMAN INVITE](https://app.getpostman.com/join-team?invite_code=4919aa816d0c88cfe39da8f38132df94&target_code=3207fdea5e2f0d067a0f2f272429f9e8)
+Aqui você pode ver a `table` principal do projeto.
 
-![Database](../challenge-gabriela/client/public/database.png)
+![Database](./client/public/database.png)
+
+[Clique aqui para acessar a documentação no Postman](https://app.getpostman.com/join-team?invite_code=4919aa816d0c88cfe39da8f38132df94&target_code=3207fdea5e2f0d067a0f2f272429f9e8) - Você irá se deparar com algo assim:
+
+![POSTMAN](./client/public/postman.png)
+
 
