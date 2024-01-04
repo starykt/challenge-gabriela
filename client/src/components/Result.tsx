@@ -48,7 +48,7 @@ const List: React.FC = () => {
       setTimeout(() => {
         setDeleteMessage(false);
         window.location.reload();
-      }, 2000);
+      }, 1000);
       } catch(err) {
         console.error(err);
       }
@@ -82,7 +82,7 @@ const List: React.FC = () => {
       <div className="relative my-10">
         <div className="mx-auto max-w-6xl">
             {showDeleteMessage && (
-              <div className="mt-4 bg-green-500 text-white p-2 transition-opacity duration-300 opacity-100 absolute">
+              <div className="mt-4 bg-green-500 text-white p-2 transition-opacity duration-300 opacity-100 sticky">
                 Nota excluída com sucesso!
               </div>
             )}

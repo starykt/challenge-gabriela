@@ -21,11 +21,10 @@ const AddNewResult : React.FC<AddNewResultProps> = ({ closeModal, selectedBimest
     [Lessons.Sociologia]: "bg-label-sociology",
   };
 
-  const downCaseBimester = selectedBimester!.toLowerCase();
-
   const normalizedBimester = selectedBimester!.toUpperCase();
 
   const [showLessonWarning, setShowLessonWarning] = useState<boolean>(false);
+  const [showGradeWarning, setGradeWarning] = useState<boolean>(false);
   const [showErrorId, setErrorId] = useState<boolean>(false);
 
   const [clickedLesson, setClickedLesson] = useState<Lessons | null>();
@@ -70,13 +69,13 @@ const AddNewResult : React.FC<AddNewResultProps> = ({ closeModal, selectedBimest
 
     const lessonOption = clickedLesson?.toLowerCase();
     const currentDate = new Date();
-    const positionOfBimester = selectedBimester?.charAt(0).toUpperCase();
+    const firstLetterOfBimester = selectedBimester?.charAt(0).toUpperCase();
     const firstLetterOfLesson = clickedLesson.charAt(0).toUpperCase();
 
 
     setNewResult(prev => ({
       ...prev,
-      id: `${positionOfBimester}${firstLetterOfLesson}`,
+      id: `${firstLetterOfBimester}${firstLetterOfLesson}`,
       createdAt: currentDate,
       updatedAt: currentDate,
       lesson: lessonOption ? Lessons[clickedLesson!] : null,
@@ -84,9 +83,17 @@ const AddNewResult : React.FC<AddNewResultProps> = ({ closeModal, selectedBimest
   }
 
   const handleSubmit = async () => {
-    if (!newResult.grade) {
+    if (!newResult.grade || newResult.grade < 0 || newResult.grade > 10) {
+      console.error("Nota inválida. Certifique-se de inserir um valor entre 0 e 10.");
+      setGradeWarning(true);
+
+      setTimeout(() => {
+        setGradeWarning(false);
+      }, 4000);
+
       return;
     }
+
     try {
       await resultService.fetchNewResult(newResult);
       window.location.reload();
@@ -134,8 +141,10 @@ const AddNewResult : React.FC<AddNewResultProps> = ({ closeModal, selectedBimest
             id="grade"
             className="flex mt-2 bg-transparent p-1.5 pl-1 text-white-900 placeholder:text-white-400 border rounded border-white"
             placeholder="7.5"
+            min="0"
             max="10"
             required
+            step="0.1"
             onChange={handleChange} />
         </div>
         <div className="mt-6 flex items-center justify-end gap-x-6">
@@ -151,6 +160,11 @@ const AddNewResult : React.FC<AddNewResultProps> = ({ closeModal, selectedBimest
         {showErrorId && (
           <div className="mt-4 bg-red-500 text-white p-2 transition-opacity duration-300 opacity-100">
             Este item já está cadastrado.
+          </div>
+        )}
+        {showGradeWarning && (
+          <div className="mt-4 bg-red-500 text-white p-2 transition-opacity duration-300 opacity-100">
+            Insira uma nota válida, positiva e inferior a 10.
           </div>
         )}
       </form>
