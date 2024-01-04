@@ -78,7 +78,7 @@ const List: React.FC = () => {
   }, [])
 
   return (
-    <div className="relative flex min-h-screen flex-col justify-center overflow-hidden">
+    <div className="relative grid gap-8 min-h-screen flex-col justify-center overflow-hidden">
       <div className="relative my-10">
         <div className="mx-auto max-w-6xl">
             {showDeleteMessage && (
@@ -87,7 +87,7 @@ const List: React.FC = () => {
               </div>
             )}
             {["PRIMEIRO", "SEGUNDO", "TERCEIRO", "QUARTO"].map(bimester => (
-              <div key={bimester} className='mb-4'>
+              <div key={bimester} className='mb-4 sm:justify-center'>
                 <div className="flex justify-between items-center align-center">
                   <h1 className='text-2xl ml-2'>
                     {formatTitle(bimester)} semestre
@@ -102,7 +102,7 @@ const List: React.FC = () => {
                     <Icon path={mdiPlus} size={1} />
                   </button>
                 </div>
-                <div className="flex flex-row gap-4">
+                <div className="flex flex-wrap sm:flex-row gap-4 justify-around sm:justify-start">
                   {(resultsByBimestre[bimester] || [])
                     .sort((a, b) => lessonOrder[a.lesson!] - lessonOrder[b.lesson!])
                     .map(result => (

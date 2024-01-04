@@ -67,6 +67,17 @@ const AddNewResult : React.FC<AddNewResultProps> = ({ closeModal, selectedBimest
       return;
     }
 
+    if (!newResult.grade || newResult.grade < 0 || newResult.grade > 10) {
+      console.error("Nota inválida. Certifique-se de inserir um valor entre 0 e 10.");
+      setGradeWarning(true);
+
+      setTimeout(() => {
+        setGradeWarning(false);
+      }, 4000);
+
+      return;
+    }
+
     const lessonOption = clickedLesson?.toLowerCase();
     const currentDate = new Date();
     const firstLetterOfBimester = selectedBimester?.charAt(0).toUpperCase();
@@ -83,16 +94,6 @@ const AddNewResult : React.FC<AddNewResultProps> = ({ closeModal, selectedBimest
   }
 
   const handleSubmit = async () => {
-    if (!newResult.grade || newResult.grade < 0 || newResult.grade > 10) {
-      console.error("Nota inválida. Certifique-se de inserir um valor entre 0 e 10.");
-      setGradeWarning(true);
-
-      setTimeout(() => {
-        setGradeWarning(false);
-      }, 4000);
-
-      return;
-    }
 
     try {
       await resultService.fetchNewResult(newResult);
@@ -107,8 +108,8 @@ const AddNewResult : React.FC<AddNewResultProps> = ({ closeModal, selectedBimest
   };
 
   return (
-    <div className="flex fixed inset-0 justify-center items-center bg-dark-200 bg-opacity-30 backdrop-blur-sm">
-      <form className="bg-zinc-900 p-9 rounded-lg">
+    <div className="flex fixed inset-0 justify-center items-center p-2 bg-dark-200 bg-opacity-30 backdrop-blur-sm">
+      <form className="bg-zinc-900 p-4 sm:p-6 md:p-8 lg:p-10 rounded-lg w-full sm:w-11/12 md:w-3/4 lg:w-2/3 xl:w-2/5 2xl:w-1/3">
         <div>
           <div className="grid cursor-pointer" onClick={() => closeModal()}>
             <Icon path={mdiClose} size={1} className="place-self-end" />
@@ -118,7 +119,7 @@ const AddNewResult : React.FC<AddNewResultProps> = ({ closeModal, selectedBimest
             Disciplina
           </p>
         </div>
-        <div className='flex'>
+        <div className='flex flex-wrap sm:flex-row gap-0.5 md:text-2xl'>
           {Object.values(Lessons).map((lesson) => (
             <div
               key={lesson}
@@ -127,7 +128,7 @@ const AddNewResult : React.FC<AddNewResultProps> = ({ closeModal, selectedBimest
               }`}
               onClick={() => setLesson(lesson)}
             >
-              <p className='text-center'>
+              <p className='text-center text-base lg:text-lg 2xl:text-xl'>
                 {lesson}
               </p>
             </div>
