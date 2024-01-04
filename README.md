@@ -41,3 +41,8 @@ Aqui você pode ver a `table` principal do projeto.
 ![POSTMAN](./client/public/postman.png)
 
 
+## Resultados
+
+![Desktop Screen](./client/public/screen.png)
+
+![Desktop Modal](./client/public/modal.png)
