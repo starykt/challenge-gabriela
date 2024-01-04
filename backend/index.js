@@ -28,7 +28,8 @@ app.get("/api/v1/results", (req, res) => {
 })
 
 app.post("/api/v1/results", (req, res) => {
-  const q = "INSERT INTO results (`id`, `grade`, `lesson`, `bimester`, `createdAt`, `updatedAt`) VALUES (?);"
+  const checkIdQuery = "SELECT COUNT(*) AS quantidade FROM results WHERE id = ?";
+  const insertQuery = "INSERT INTO results (`id`, `grade`, `lesson`, `bimester`, `createdAt`, `updatedAt`) VALUES (?);"
   const createdAt = new Date(req.body.createdAt);
   const updatedAt = new Date(req.body.updatedAt);
 
@@ -41,16 +42,34 @@ app.post("/api/v1/results", (req, res) => {
     updatedAt.toISOString().split('T')[0],
   ];
 
-  db.query(q, [values], (err, data) => {
-    if(err) return res.json(err)
-    return res.json("Grade was assigned!")
+  // Query para validar se ID já existe no banco
+  db.query(checkIdQuery, [req.body.id], (errCheck, dataCheck) => {
+    if (errCheck) {
+      console.error("Error checking ID:", errCheck);
+      return res.status(500).json({ error: "Internal Server Error" });
+    }
+
+    const idExists = dataCheck[0].quantidade > 0;
+
+    if (idExists) {
+      return res.status(400).json({ error: "Nota já cadastrada no sistema :)" });
+    } else {
+      db.query(insertQuery, [values], (errInsert, dataInsert) => {
+        if (errInsert) {
+          console.error("Error inserting data:", errInsert);
+          return res.status(500).json({ error: "Internal Server Error" });
+        }
+        return res.json("Grade was assigned!");
+      });
+    }
+
   });
-})
+});
 
 app.delete("/api/v1/results/:id", (req, res) => {
   const resultId = req.params.id;
-  const q = "DELETE FROM results WHERE id = ?";
-  db.query(q, [resultId], (err, data) => {
+  const deleteQuery = "DELETE FROM results WHERE id = ?";
+  db.query(deleteQuery, [resultId], (err, data) => {
     if(err) return res.json(err)
     return res.json("Grade was deleted!")
   });
