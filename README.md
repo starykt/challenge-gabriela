@@ -43,6 +43,8 @@ Aqui você pode ver a `table` principal do projeto.
 
 ## Resultados
 
+[Clique aqui para visualizar um vídeo do app](https://www.loom.com/share/79b183ea7c094d69a3c57bd874fced87?sid=ce26600a-74ae-4378-8133-207e268dbe9a)
+
 ![Desktop Screen](./client/public/screen.png)
 
 ![Desktop Modal](./client/public/modal.png)
